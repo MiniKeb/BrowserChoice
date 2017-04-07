@@ -10,6 +10,15 @@ The application wait an url as parameter :
 BrowserChoice.exe https://github.com/
 ```
 
+You can define as many web browser that you want in the configuration file : 
+```
+<webBrowsers>
+  <webBrowser title="Work" path="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" />
+  <webBrowser title="Personal" path="C:\Program Files (x86)\Firefox Developer Edition\firefox.exe" />
+  <webBrowser title="Other" path="C:\Program Files\Internet Explorer\iexplore.exe" />
+</webBrowsers>
+```
+
 To register the application in the base registry, you just have to call : 
 ```
 BrowserChoice.exe --register
