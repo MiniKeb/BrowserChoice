@@ -34,10 +34,10 @@ namespace BrowserChoice
             var applicationName = assembly.ManifestModule.Name;
             var applicationFullPath = assembly.Location;
 
-            Func<string, string> noExe = text => text.Replace(".exe", string.Empty).Replace(".EXE", string.Empty);
-            
-            Registry.SetValue($@"HKEY_LOCAL_MACHINE\SOFTWARE\Classes\{noExe(applicationName)}URL\DefaultIcon", string.Empty, $"{applicationFullPath}, 0", RegistryValueKind.String);
-            Registry.SetValue($@"HKEY_LOCAL_MACHINE\SOFTWARE\Classes\{noExe(applicationName)}URL\shell\open\command", string.Empty, $"\"{applicationFullPath}\" \"%1\"", RegistryValueKind.String);
+            string NoExe(string text) => text.Replace(".exe", string.Empty).Replace(".EXE", string.Empty);
+
+            Registry.SetValue($@"HKEY_LOCAL_MACHINE\SOFTWARE\Classes\{NoExe(applicationName)}URL\DefaultIcon", string.Empty, $"{applicationFullPath}, 0", RegistryValueKind.String);
+            Registry.SetValue($@"HKEY_LOCAL_MACHINE\SOFTWARE\Classes\{NoExe(applicationName)}URL\shell\open\command", string.Empty, $"\"{applicationFullPath}\" \"%1\"", RegistryValueKind.String);
 
             Registry.SetValue($@"HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\{applicationName.ToUpperInvariant()}", string.Empty, "Browser Selector", RegistryValueKind.String);
 
@@ -45,12 +45,12 @@ namespace BrowserChoice
             Registry.SetValue($@"HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\{applicationName.ToUpperInvariant()}\shell\open\command", string.Empty, $"\"{applicationFullPath}\" \"%1\"", RegistryValueKind.String);
 
             Registry.SetValue($@"HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\{applicationName.ToUpperInvariant()}\Capabilities", "ApplicationIcon", $"{applicationFullPath}, 0", RegistryValueKind.String);
-            Registry.SetValue($@"HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\{applicationName.ToUpperInvariant()}\Capabilities", "ApplicationName", $"{noExe(applicationName)}", RegistryValueKind.String);
+            Registry.SetValue($@"HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\{applicationName.ToUpperInvariant()}\Capabilities", "ApplicationName", $"{NoExe(applicationName)}", RegistryValueKind.String);
             Registry.SetValue($@"HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\{applicationName.ToUpperInvariant()}\Capabilities\StartMenu", "StartMenuInternet", $"{applicationName.ToUpperInvariant()}", RegistryValueKind.String);
-            Registry.SetValue($@"HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\{applicationName.ToUpperInvariant()}\Capabilities\URLAssociations", "http", $"{noExe(applicationName)}URL", RegistryValueKind.String);
-            Registry.SetValue($@"HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\{applicationName.ToUpperInvariant()}\Capabilities\URLAssociations", "https", $"{noExe(applicationName)}URL", RegistryValueKind.String);
+            Registry.SetValue($@"HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\{applicationName.ToUpperInvariant()}\Capabilities\URLAssociations", "http", $"{NoExe(applicationName)}URL", RegistryValueKind.String);
+            Registry.SetValue($@"HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\{applicationName.ToUpperInvariant()}\Capabilities\URLAssociations", "https", $"{NoExe(applicationName)}URL", RegistryValueKind.String);
 
-            Registry.SetValue($@"HKEY_LOCAL_MACHINE\SOFTWARE\RegisteredApplications", noExe(applicationName), $@"Software\Clients\StartMenuInternet\{applicationName.ToUpperInvariant()}\Capabilities", RegistryValueKind.String);
+            Registry.SetValue($@"HKEY_LOCAL_MACHINE\SOFTWARE\RegisteredApplications", NoExe(applicationName), $@"Software\Clients\StartMenuInternet\{applicationName.ToUpperInvariant()}\Capabilities", RegistryValueKind.String);
         }
     }
 }
