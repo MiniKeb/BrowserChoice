@@ -1,17 +1,36 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace BrowserChoice
 {
     public partial class ChoiceForm : Form
     {
-        private const int buttonHeight = 40;
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn
+        (
+            int nLeftRect,     // x-coordinate of upper-left corner
+            int nTopRect,      // y-coordinate of upper-left corner
+            int nRightRect,    // x-coordinate of lower-right corner
+            int nBottomRect,   // y-coordinate of lower-right corner
+            int nWidthEllipse, // width of ellipse
+            int nHeightEllipse // height of ellipse
+        );
+
+        private const int containerWidth = 204;
+        private const int containerHeight = 130;
+        private const int buttonWidth = 164;
+        private const int buttonHeight = 44;
 
         public ChoiceForm(string url)
         {
             InitializeComponent();
+
+            this.FormBorderStyle = FormBorderStyle.None;
+            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, containerWidth, containerHeight, 20, 20));
 
             var configuration = (WebBrowsersConfiguration)ConfigurationManager.GetSection("webBrowsers");
             var index = 0;
@@ -20,14 +39,19 @@ namespace BrowserChoice
                 var button = new Button
                 {
                     Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-                    Location = new System.Drawing.Point(12, 15 + buttonHeight * index),
-                    Margin = new Padding(12, 12, 12, 12),
-                    Name = browser.Title +"_btn",
-                    Size = new Size(190, buttonHeight),
+                    Location = new System.Drawing.Point(20, 20 + buttonHeight * index + 5 * index),
+                    //Margin = new Padding(12, 12, 12, 12),
+                    Name = browser.Title + "_btn",
+                    Size = new Size(buttonWidth, buttonHeight),
                     TabIndex = index,
                     Text = browser.Title,
                     UseVisualStyleBackColor = true,
-                    BackColor = ControlPaint.Light(SystemColors.ControlDarkDark, 30),
+                    BackColor = Color.FromArgb(73, 117, 82),
+                    FlatStyle = FlatStyle.Flat,
+                    Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                    ForeColor = Color.FromArgb(234, 228, 218),
+
+
                 };
                 button.Click += (sender, e) =>
                 {
