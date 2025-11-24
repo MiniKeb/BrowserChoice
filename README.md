@@ -1,5 +1,7 @@
 ﻿# Browser Choice
 
+![screenshot about browser choice](image.png)
+
 ## Why
 I'm a massive browser tabs user and I did this application to separate my "personnal" tabs from my "work" tabs.
 The concept is quiet simple : Proposing to choose which web browser should be open when I click on a link.
