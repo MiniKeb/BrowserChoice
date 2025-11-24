@@ -33,7 +33,7 @@ namespace BrowserChoice
             var newContainerHeight = containerHeight + 50 * (configuration.webBrowsers.Count - 1);
 
             this.FormBorderStyle = FormBorderStyle.None;
-            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, containerWidth, newContainerHeight, 20, 20));
+            Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, containerWidth, newContainerHeight, 20, 20));
 
             this.Height = newContainerHeight + 20;
             this.linkUrl.Text = url;
@@ -44,19 +44,29 @@ namespace BrowserChoice
                 var button = new Button
                 {
                     Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-                    Location = new System.Drawing.Point(20, 40 + buttonHeight * index + 5 * index),
+                    Location = new Point(20, 40 + buttonHeight * index + 5 * index),
                     //Margin = new Padding(12, 12, 12, 12),
                     Name = browser.Title + "_btn",
                     Size = new Size(buttonWidth, buttonHeight),
                     TabIndex = index,
                     Text = browser.Title,
                     UseVisualStyleBackColor = true,
-                    BackColor = Color.FromArgb(73, 117, 82),
+                    BackColor = Color.FromArgb(38, 38, 38),
                     FlatStyle = FlatStyle.Flat,
                     Font = new Font("Segoe UI", 12, FontStyle.Bold),
                     ForeColor = Color.FromArgb(234, 228, 218),
+                };
 
-
+                button.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, button.Width, button.Height, 20, 20));
+                button.FlatAppearance.BorderSize = 0;
+                button.FlatAppearance.MouseOverBackColor = Color.FromArgb(73, 117, 82);
+                button.GotFocus += (sender, e) =>
+                {
+                    button.BackColor = Color.FromArgb(73, 117, 82);
+                };
+                button.LostFocus += (sender, e) =>
+                {
+                    button.BackColor = Color.FromArgb(38, 38, 38);
                 };
                 button.Click += (sender, e) =>
                 {
