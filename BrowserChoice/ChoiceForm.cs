@@ -20,9 +20,9 @@ namespace BrowserChoice
             int nHeightEllipse // height of ellipse
         );
 
-        private const int containerWidth = 204;
+        private const int containerWidth = 504;
         private const int containerHeight = 100;
-        private const int buttonWidth = 164;
+        private const int buttonWidth = 464;
         private const int buttonHeight = 44;
 
         public ChoiceForm(string url)
