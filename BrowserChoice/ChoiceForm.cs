@@ -21,7 +21,7 @@ namespace BrowserChoice
         );
 
         private const int containerWidth = 204;
-        private const int containerHeight = 130;
+        private const int containerHeight = 100;
         private const int buttonWidth = 164;
         private const int buttonHeight = 44;
 
@@ -29,17 +29,22 @@ namespace BrowserChoice
         {
             InitializeComponent();
 
-            this.FormBorderStyle = FormBorderStyle.None;
-            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, containerWidth, containerHeight, 20, 20));
-
             var configuration = (WebBrowsersConfiguration)ConfigurationManager.GetSection("webBrowsers");
+            var newContainerHeight = containerHeight + 50 * (configuration.webBrowsers.Count - 1);
+
+            this.FormBorderStyle = FormBorderStyle.None;
+            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, containerWidth, newContainerHeight, 20, 20));
+
+            this.Height = newContainerHeight + 20;
+            this.linkUrl.Text = url;
+
             var index = 0;
             foreach (var browser in configuration.webBrowsers)
             {
                 var button = new Button
                 {
                     Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-                    Location = new System.Drawing.Point(20, 20 + buttonHeight * index + 5 * index),
+                    Location = new System.Drawing.Point(20, 40 + buttonHeight * index + 5 * index),
                     //Margin = new Padding(12, 12, 12, 12),
                     Name = browser.Title + "_btn",
                     Size = new Size(buttonWidth, buttonHeight),
@@ -63,5 +68,6 @@ namespace BrowserChoice
                 index++;
             }
         }
+
     }
 }
